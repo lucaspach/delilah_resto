@@ -2,8 +2,12 @@ import app from './app/app'
 import config from './config'
 import Sequelize from 'sequelize'
 
-const dbQueryString = `mysql://${config.DDBB.USER}:${config.DDBB.PASS}@${config.DDBB.HOST}:${config.DDBB.PORT}/${config.DDBB.NAME}`
-const sequelize = new Sequelize(dbQueryString)
+//const dbQueryString = `mysql://${config.DDBB.USER}:${config.DDBB.PASS}@${config.DDBB.HOST}:${config.DDBB.PORT}/${config.DDBB.NAME}`
+const sequelize = new Sequelize(config.DDBB.NAME, config.DDBB.USER, config.DDBB.PASS, {
+    host: config.DDBB.HOST,
+    dialect: "mysql"
+})
+//const sequelize = new Sequelize(dbQueryString)
 
 sequelize
     .authenticate()

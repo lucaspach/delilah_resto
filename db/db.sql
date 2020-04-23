@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `login`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `login` (
-  `idUser` int(11) NOT NULL,
+  `idUser` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `password` varchar(200) NOT NULL,
   `token` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -42,7 +42,7 @@ DROP TABLE IF EXISTS `order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `order` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `state` varchar(45) DEFAULT NULL,
   `id_product` int(11) DEFAULT NULL,
   `total` double DEFAULT NULL,
@@ -64,7 +64,7 @@ DROP TABLE IF EXISTS `product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `product` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   `price` double DEFAULT NULL,
   `description_img` varchar(200) DEFAULT NULL,
@@ -80,7 +80,7 @@ DROP TABLE IF EXISTS `role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `role` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='			';
@@ -94,7 +94,7 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   `last_name` varchar(45) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
