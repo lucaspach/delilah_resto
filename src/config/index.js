@@ -8,7 +8,7 @@ const config = {
         HOST: 'localhost'
     },
     JWT: {
-        PRIVATE_KEY: 'secret',
+        PRIVATE_KEY: '!!plUSCu4mP3rf3ct0999c!##@00.cdovbg0@s',
         EXPIRES_TIME: 10
     }
 }

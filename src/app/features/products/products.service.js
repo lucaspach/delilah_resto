@@ -1,4 +1,4 @@
-import { Service } from "../../core/services/service";
+import { Service } from '../../core/services/service'
 
 export class ProductsService {
 
