@@ -1,8 +1,9 @@
 export class User {
-    constructor(id = null, name, lastName, email, phoneNumber, fullAddress, roleId) {
+    constructor(id = null, fullName, username, password, email, phoneNumber, fullAddress, roleId) {
         this.id = id
-        this.name = name
-        this.lastName = lastName
+        this.fullName = fullName
+        this.username = username
+        this.password = password
         this.email = email
         this.phoneNumber = phoneNumber
         this.fullAddress = fullAddress

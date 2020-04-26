@@ -29,9 +29,10 @@ router
             }
         }
     })
-    // Verificamos que sea Admin
+    // Verificamos que sea Admin    
     .use(verifyRole)
-    .post('/', async (req, res)  => {
+
+    .post('/', verifyRole, async (req, res)  => {
 
         try {            
             await ProductsController.add(req.body)
