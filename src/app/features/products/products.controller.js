@@ -28,6 +28,29 @@ export class ProductsController {
         return product
     }
 
+    static async getProductsFromReq(req) {
+        const products = req.body.products
+        console.log(products)
+/*         let productsN
+        products.forEach(element => {
+            const product = {
+                id: null,
+                name: element.name,
+                price: element.price,
+                descriptionImg: element.descriptionImg
+            }
+            productsN.push(product)
+        }); */
+    /*      const product = {
+            id: null,
+            name: req.body.name,
+            price: req.body.price,
+            descriptionImg: req.body.descriptionImg
+        }
+ */
+        return products
+    }
+
     static async updateProduct(product) {
         return await ProductsService.updateOneProduct(product)
     }

@@ -239,7 +239,8 @@ CREATE TABLE `user` (
   `full_address` varchar(200) DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_user_role_idx` (`role_id`)
+  KEY `fk_user_role_idx` (`role_id`),
+  CONSTRAINT `fk_user_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='								';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -249,7 +250,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Pacheco Lucas','lucaspach','Jack24','lucasfede2010@gmail.com','3515333425','Cordoba',2),(2,'Gaston Celis','gastoncelis','otrogatoo','gastoncelis09@gmail.com','3514789294',NULL,1);
+INSERT INTO `user` VALUES (1,'Pacheco Lucas','lucaspach','Jack24','lucasfede2010@gmail.com','3515333425','Cordoba',1),(2,'Gaston Celis','gastoncelis','otrogatoo','gastoncelis09@gmail.com','3514789294',NULL,1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -270,4 +271,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-25 20:25:30
+-- Dump completed on 2020-04-25 22:09:43

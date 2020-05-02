@@ -5,7 +5,7 @@ export const verifyToken = (req, res, next) => {
     
     try {
         const token = req.headers.authorization.split(' ')[1]
-        const data = verify(token, config.JWT.PRIVATE_KEY)
+        verify(token, config.JWT.PRIVATE_KEY)
         next()
         
     } catch (error) {
@@ -27,5 +27,20 @@ export const verifyRole = (req, res, next) => {
         
     } catch (error) {
         res.status(401).send({ error: 'Unauthorized.', message: 'Token verification failed' })
+    }
+}
+
+export const getUserAuthenticated = (req, res, next) => {
+
+    try {
+        const token = req.headers.authorization.split(' ')[1]
+        const data = verify(token, config.JWT.PRIVATE_KEY)
+        
+        return data.id
+        
+    } catch (error) {
+        res.status(401).send({ error: 'Unauthorized.', message: 'Token verification failed' })
+    } finally {
+        next()
     }
 }
