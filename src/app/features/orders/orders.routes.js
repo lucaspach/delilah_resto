@@ -2,36 +2,67 @@ import { Router } from 'express'
 import { OrdersController } from './orders.controller'
 import { verify } from 'jsonwebtoken'
 import config from '../../../config'
-import { verifyRole } from '../../middlewares/auth.middleware'
+import { roleCheck } from '../../middlewares/auth.middleware'
+import { Order } from './order.model'
 const router = Router()
 
 router
-    .get('/', verifyRole, async (req, res) => {
+    .get('/', roleCheck, async (req, res) => {
 
         try {
-            const products = await OrdersController.getAll()
-            res.json(products)
+            const orders = await OrdersController.getAll()
+            //orders.products = await OrdersController.getAllProductsXOrders()
+            // Añadimos los productos, según el ID
+            const ordersXProducts = await OrdersController.getAllXProducts()
+            orders.forEach(element => {
+                ordersXProducts.forEach(elementP => {
+                    if (element.id === elementP.orderId) {
+                        element.products = elementP
+                    }
+                })
+            })
+
+            res.json(orders)
 
         } catch (error) {
             res.status(500).json({ error: 'Something went wrong. Please retry or contact with an admin.', message: error})
         }
     })
-    .get('/:id', async (req, res) => { // aca verificar el usuario
+    .get('/:id', async (req, res) => { 
 
         const id = parseInt(req.params.id)
-
+        // Obtengo el id del usuario loguiado de forma un poco sucia 
+        const token = req.headers.authorization.split(' ')[1]
+        const data = verify(token, config.JWT.PRIVATE_KEY)
+        
         if(!isNaN(id)) {
+            if(id === data.id) {
+                try {
+                    const orders = await OrdersController.getOneById()
+                    //orders.products = await OrdersController.getAllProductsXOrders()
+                    // Añadimos los productos, según el ID
+                    const ordersXProducts = await OrdersController.getByIdOrdersXProducts()
+                    orders.forEach(element => {
+                        ordersXProducts.forEach(elementP => {
+                            if (element.id === elementP.orderId) {
+                                element.products = elementP
+                            }
+                        })
+                    })
+        
+                    res.json(orders)
 
-            try {
-                const products = await OrdersController.getById(id)
-                res.json(products)
-
-            } catch (error) {
-                res.status(500).json({ error: 'Something went wrong. Please retry or contact with an admin.', message: error})
+                } catch (error) {
+                    res.status(500).json({ error: 'Something went wrong. Please retry or contact with an admin.', message: error})
+                }
+            } else {
+                res.status(402).send({ error: 'Unauthorized ID.', message: 'You can only see your orders.' })
             }
+        } else {
+            res.status(402).send({ error: 'Bad request.', message: 'Id must be a number.' })
         }
     })
-    .post('/', async (req, res)  => {
+    .post('/',  async (req, res)  => {
 
         try {
             // Obtengo el id del usuario loguiado de forma un poco sucia 
@@ -52,20 +83,19 @@ router
             res.status(500).json({ error: 'Something went wrong. Please retry or contact with an admin.', message: error})
         }
     })
-    .put('/:id', verifyRole, async (req, res)  => {
+    .put('/:id', roleCheck, async (req, res)  => {
 
         const id = parseInt(req.params.id)
+        const stateId = parseInt(req.body.order_state_id)
+        console.log(id + ' ' + stateId)
 
-        if(!isNaN(id)) {
+        if(!isNaN(id) && !isNaN(stateId)) {
             try {
-                let product = await OrdersController.getProductFromReq(req)
-                product.id = id
                 
-                product = await OrdersController.updateProduct(product)
+                const order = await OrdersController.updateOneOrderState(id, stateId)
 
-                if (product) {
-                    res.status(200).json( {product, message: 'Product updated successfully.' })
-                    console.log('Entro')
+                if (order) {
+                    res.status(200).json({ message: 'Order State updated successfully.' })
                 } else {
                     res.status(404).json({ error: 'Id not found.' })
                 }
@@ -74,30 +104,8 @@ router
                 res.status(500).json({ error: 'Something went wrong. Please retry or contact with an admin.', message: error })
             }
         } else {
-            res.status(402).send({ error: 'Bad request.', message: 'Id must be a number' })
+            res.status(402).send({ error: 'Bad request.', message: 'Id must be a number.' })
         }
-    })
-    .delete('/:id', verifyRole, async (req, res)  => {
-        
-        const id = parseInt(req.params.id)
-
-        if (!isNaN(id)) {
-            try {
-                const product = await OrdersController.getById(id)
-                
-                if (product !== null) {
-                    await OrdersController.deleteById(id)
-                    res.status(200).json({ message: 'Product deleted successfully.' })
-                } else {
-                    res.status(404).json({ error: 'Id not found.' })
-                }
-            } catch (error) {
-                res.status(500).json({ error: 'Something went wrong. Please retry or contact with an admin.', message: error })
-            }
-        } else {
-            res.status(402).send({ error: 'Bad request.', message: 'Id must be a number' })
-        }
-
     })
 
 export default router

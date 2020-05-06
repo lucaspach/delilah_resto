@@ -7,8 +7,16 @@ export class OrdersController {
         return await OrdersService.getAllDB()
     }
 
-    static async getById(id) {
+    static async getAllXProducts() {
+        return await OrdersService.getAllProductsXOrders()
+    }
+
+    static async getOneById(id) {
         return await OrdersService.getOneById(id)
+    }
+
+    static async getByIdOrdersXProducts(id) {
+        return await OrdersService.getByIdProductsXOrders(id)
     }
 
     static async add(userId, { paymentId, products }) {
@@ -26,7 +34,6 @@ export class OrdersController {
         let total = 0 
         products.forEach(element => {
            total += parseInt(element.quantity) * parseFloat(element.price)
-           console.log(total)
         })
         
         if (total !== 0) {
@@ -35,15 +42,20 @@ export class OrdersController {
 
             const rQueryOrderDetail = await OrdersService.storeDetail(orderDetail)
             const orderDetailId = rQueryOrderDetail[0]["LAST_INSERT_ID()"]
-            console.log(orderDetailId)
-            return OrderDetailId
+            
+            // Creamos el detalle de la orden x cada producto
+            products.forEach(async element =>  {
+                await OrdersService.storeDetailHasProduct(orderDetailId, element.id, element.quantity)
+             })
+            return orderDetailId
+
 
         } else return new Error('Total Order must be more than 0')
         
     }
 
-    static async updateOrder(order) {
-        return await OrdersService.updateOneProduct(order)
+    static async updateOneOrderState(id, stateId) {
+        return await OrdersService.updateOneOrderState(id, stateId)
     }
 
     static async deleteById(id) {

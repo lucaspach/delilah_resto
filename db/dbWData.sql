@@ -53,7 +53,7 @@ CREATE TABLE `order` (
   `id_state` int(11) DEFAULT NULL,
   `id_payment` int(11) DEFAULT NULL,
   `id_user` int(11) DEFAULT NULL,
-  `date` date DEFAULT NULL,
+  `creation_datetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_order_user_idx` (`id_user`),
   KEY `fk_order_state_idx` (`id_state`),
@@ -61,7 +61,7 @@ CREATE TABLE `order` (
   CONSTRAINT `fk_order_payment` FOREIGN KEY (`id_payment`) REFERENCES `payment` (`id`),
   CONSTRAINT `fk_order_state` FOREIGN KEY (`id_state`) REFERENCES `order_state` (`id`),
   CONSTRAINT `fk_order_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='																																														';
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='																																														';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,6 +70,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
+INSERT INTO `order` VALUES (42,1,1,1,'2020-05-01 23:08:00'),(43,1,1,1,'2020-05-02 23:20:25'),(44,2,1,1,'2020-05-02 23:20:50'),(45,1,1,1,'2020-05-02 23:23:37');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,7 +88,7 @@ CREATE TABLE `order_detail` (
   PRIMARY KEY (`id`),
   KEY `fk_orderD_order_idx` (`id_order`),
   CONSTRAINT `fk_orderD_order` FOREIGN KEY (`id_order`) REFERENCES `order` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='				';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='				';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,6 +97,7 @@ CREATE TABLE `order_detail` (
 
 LOCK TABLES `order_detail` WRITE;
 /*!40000 ALTER TABLE `order_detail` DISABLE KEYS */;
+INSERT INTO `order_detail` VALUES (1,42,1149.98),(2,43,1149.98),(3,44,1149.98),(4,45,1149.98);
 /*!40000 ALTER TABLE `order_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,6 +111,7 @@ DROP TABLE IF EXISTS `order_detail_has_product`;
 CREATE TABLE `order_detail_has_product` (
   `order_detail_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
+  `product_quantity` int(11) DEFAULT NULL,
   PRIMARY KEY (`order_detail_id`,`product_id`),
   KEY `fk_order_detail_has_product_product1_idx` (`product_id`),
   KEY `fk_order_detail_has_product_order_detail1_idx` (`order_detail_id`),
@@ -123,6 +126,7 @@ CREATE TABLE `order_detail_has_product` (
 
 LOCK TABLES `order_detail_has_product` WRITE;
 /*!40000 ALTER TABLE `order_detail_has_product` DISABLE KEYS */;
+INSERT INTO `order_detail_has_product` VALUES (2,2,1),(2,3,1),(2,4,2),(3,2,1),(3,3,1),(3,4,2),(4,2,1),(4,3,1),(4,4,2);
 /*!40000 ALTER TABLE `order_detail_has_product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -137,7 +141,7 @@ CREATE TABLE `order_state` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `state` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='					';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='					';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,6 +150,7 @@ CREATE TABLE `order_state` (
 
 LOCK TABLES `order_state` WRITE;
 /*!40000 ALTER TABLE `order_state` DISABLE KEYS */;
+INSERT INTO `order_state` VALUES (1,'Nuevo'),(2,'Confirmado'),(3,'Preparando'),(4,'Enviando'),(5,'Entregado');
 /*!40000 ALTER TABLE `order_state` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -160,7 +165,7 @@ CREATE TABLE `payment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `method` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='				';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='				';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -169,6 +174,7 @@ CREATE TABLE `payment` (
 
 LOCK TABLES `payment` WRITE;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
+INSERT INTO `payment` VALUES (1,'Efectivo'),(2,'Tarjeta Debito'),(3,'Tarjeta Credito');
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -185,7 +191,7 @@ CREATE TABLE `product` (
   `price` double DEFAULT NULL,
   `description_img` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -194,7 +200,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (2,'HomiesXLL',350,'www.imagenes.com/homies');
+INSERT INTO `product` VALUES (2,'HomiesXLL',350,'www.imagenes.com/homies'),(3,'Pizza Especial',300,'www.imagenes.com/pizza'),(4,'Ensalada Cesar',249.99,'www.imagenes.com/cesar');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -250,7 +256,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Pacheco Lucas','lucaspach','Jack24','lucasfede2010@gmail.com','3515333425','Cordoba',1),(2,'Gaston Celis','gastoncelis','otrogatoo','gastoncelis09@gmail.com','3514789294',NULL,1);
+INSERT INTO `user` VALUES (1,'Pacheco Lucas','lucaspach','Jack24','lucasfede2010@gmail.com','3511111425','Cordoba',2),(2,'Gaston Celis','gastoncelis','Gato12','gastoncelis09@gmail.com','3514559294','Cordoba',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -271,4 +277,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-25 22:09:43
+-- Dump completed on 2020-05-06 19:21:46

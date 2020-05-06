@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import {ProductsController} from './products.controller'
-import { verifyRole } from '../../middlewares/auth.middleware'
+import { roleCheck } from '../../middlewares/auth.middleware'
 const router = Router()
 
 router
@@ -30,7 +30,7 @@ router
         }
     })
     // Verificamos que sea Admin    
-    .use(verifyRole)
+    .use(roleCheck)
 
     .post('/', async (req, res)  => {
 
