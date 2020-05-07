@@ -18,87 +18,35 @@ CRUD OP	CREATE	READ	UPDATE	DELETE
 
 ### Instalación 🔧
 
-_Una serie de ejemplos paso a paso que te dice lo que debes ejecutar para tener un entorno de desarrollo ejecutandose_
+Una vez descargado el proyecto, lo primero es modificar el archivo de configuración ubicado en src/config/index.js.
+Los siguientes campos deben llenarse con la configuración del servidor MYSQL instalado:
 
-_Dí cómo será ese paso_
+.       NAME: '',
+.       USER: '',
+.       PASS: '',
+.       PORT: '',
 
-```
-Da un ejemplo
-```
+y por último dentro de JWT:
 
-_Y repite_
+.       PRIVATE_KEY: ''
 
-```
-hasta finalizar
-```
+Una vez realizado esto, dentro de la carpeta db, se encuentra el archivo dbWData.sql el script para crear el esquema y las tablas necesarias para el funcionamiento de la api.
 
-_Finaliza con un ejemplo de cómo obtener datos del sistema o como usarlos para una pequeña demo_
+## Documentación
 
-## Ejecutando las pruebas ⚙️
+Dentro del proyecto, encontrarán un archivo specs.yaml... Utilizando Swagger se documento toda la información referida a los distintos end-points, que devuelven y que requieren cada uno.
 
-_Explica como ejecutar las pruebas automatizadas para este sistema_
-
-### Analice las pruebas end-to-end 🔩
-
-_Explica que verifican estas pruebas y por qué_
-
-```
-Da un ejemplo
-```
-
-### Y las pruebas de estilo de codificación ⌨️
-
-_Explica que verifican estas pruebas y por qué_
-
-```
-Da un ejemplo
-```
-
-## Despliegue 📦
-
-_Agrega notas adicionales sobre como hacer deploy_
-
-## Construido con 🛠️
-
-_Menciona las herramientas que utilizaste para crear tu proyecto_
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - El framework web usado
-* [Maven](https://maven.apache.org/) - Manejador de dependencias
-* [ROME](https://rometools.github.io/rome/) - Usado para generar RSS
-
-## Contribuyendo 🖇️
-
-Por favor lee el [CONTRIBUTING.md](https://gist.github.com/villanuevand/xxxxxx) para detalles de nuestro código de conducta, y el proceso para enviarnos pull requests.
-
-## Wiki 📖
-
-Puedes encontrar mucho más de cómo utilizar este proyecto en nuestra [Wiki](https://github.com/tu/proyecto/wiki)
 
 ## Versionado 📌
 
-Usamos [SemVer](http://semver.org/) para el versionado. Para todas las versiones disponibles, mira los [tags en este repositorio](https://github.com/tu/proyecto/tags).
+Utilice git para el versionado de la api.
 
 ## Autores ✒️
 
 _Menciona a todos aquellos que ayudaron a levantar el proyecto desde sus inicios_
 
-* **Andrés Villanueva** - *Trabajo Inicial* - [villanuevand](https://github.com/villanuevand)
-* **Fulanito Detal** - *Documentación* - [fulanitodetal](#fulanito-de-tal)
-
-También puedes mirar la lista de todos los [contribuyentes](https://github.com/your/project/contributors) quíenes han participado en este proyecto. 
-
-## Licencia 📄
-
-Este proyecto está bajo la Licencia (Tu Licencia) - mira el archivo [LICENSE.md](LICENSE.md) para detalles
-
-## Expresiones de Gratitud 🎁
-
-* Comenta a otros sobre este proyecto 📢
-* Invita una cerveza 🍺 o un café ☕ a alguien del equipo. 
-* Da las gracias públicamente 🤓.
-* etc.
-
-
+* **Lucas Pacheco** - *Trabajo Inicial* - [lucaspach](https://github.com/lucaspach)
+* **Lucas Pacheco** - *Documentación* - [fulanitodetal](https://github.com/lucaspach)
+* **Andrés Villanueva** *Estructura-README* - [Villanuevand](https://github.com/Villanuevand)
 
 ---
-⌨️ con ❤️ por [Villanuevand](https://github.com/Villanuevand) 😊
