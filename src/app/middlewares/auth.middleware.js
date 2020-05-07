@@ -30,17 +30,15 @@ export const roleCheck = (req, res, next) => {
     }
 }
 
-export const getUserAuthenticated = (req, res, next) => {
+export const getUserAuthenticated = (req, res) => {
 
     try {
         const token = req.headers.authorization.split(' ')[1]
         const data = verify(token, config.JWT.PRIVATE_KEY)
         
         return data.id
-        
     } catch (error) {
         res.status(401).send({ error: 'Unauthorized.', message: 'Token verification failed' })
-    } finally {
-        next()
     }
+
 }

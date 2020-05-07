@@ -10,7 +10,7 @@ export class ProductsService {
         return await Service.getQuery('SELECT * FROM product WHERE id = ?', [id])
     }
 
-    static async store(product) {
+    static async add(product) {
         return await Service.setQuery('INSERT INTO product (name, price, description_img) VALUES (?, ?, ?)', [
             product.name,
             product.price,

@@ -1,0 +1,377 @@
+openapi: 3.0.1
+info:
+  title: Delilah Resto
+  description: 'Una API para gestionar el back-end del Restaurant Delilah'
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+- url: http://localhost/
+- url: http://localhost/
+tags:
+- name: products
+  description: Toda la información acerca del cátalogo de productos del restaurant
+- name: orders
+  description: Acceso a los pedidos realizados
+- name: users
+  description: Operaciones de usuarios
+- name: login
+  description: Ingreso del usuario
+paths:
+  /products:
+    get:
+      tags:
+      - products
+      summary: Get all products
+      operationId: getProducts
+      responses:
+        200:
+          description: Get all products
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        500:
+          description: Something went wrong. Please retry or contact with an admin.
+          content: {}
+      x-codegen-request-body-name: body
+    post:
+      tags:
+      - products
+      summary: Add a new product to the store
+      operationId: addProduct
+      requestBody:
+        description: Product object that needs to be added to the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      responses:
+        201:
+          description: Product created successfully.
+          content: {}
+        500:
+          description: Something went wrong. Please retry or contact with an admin.
+      x-codegen-request-body-name: body
+  /products/{productId}:
+    get:
+      tags:
+      - products
+      summary: Find product by ID
+      description: Returns a single product
+      operationId: getProductById
+      parameters:
+      - name: productId
+        in: path
+        description: ID of product to return
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Get one product
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        500:
+          description: Something went wrong. Please retry or contact with an admin.
+          content: {}
+    put:
+      tags:
+      - products
+      summary: Updates a product in the store with form data
+      operationId: updateProduct
+      parameters:
+      - name: productId
+        in: path
+        description: ID of product that needs to be updated
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                name:
+                  type: string
+                  description: Updated name of the product
+                status:
+                  type: string
+                  description: Updated status of the product
+      responses:
+        200:
+          description: Product updated successfully.
+          content: {}
+        404:
+          description: Id not found.
+          content: {}
+    delete:
+      tags:
+      - products
+      summary: Delete a product
+      operationId: deleteProduct
+      parameters:
+      - name: api_key
+        in: header
+        schema:
+          type: string
+      - name: productId
+        in: path
+        description: Product id to delete
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Product not found
+          content: {}
+  /orders:
+    get:
+      tags:
+      - orders
+      summary: Get all orders
+      operationId: getOrders
+      responses:
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Orders not found
+          content: {}
+        405:
+          description: Validation exception
+          content: {}
+      security:
+      - petstore_auth:
+        - write:orders
+        - read:orders
+      x-codegen-request-body-name: body
+    post:
+      tags:
+      - orders
+      summary: Place an order for a product
+      operationId: placeOrder
+      requestBody:
+        description: order placed for purchasing the product
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/OrderC'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderR'
+        400:
+          description: Invalid Order
+          content: {}
+      x-codegen-request-body-name: body
+  /orders/{orderId}:
+    get:
+      tags:
+      - orders
+      summary: Find purchase order by ID
+      description: For valid response try integer IDs
+      operationId: getOrderById
+      parameters:
+      - name: orderId
+        in: path
+        description: ID of pet that needs to be fetched
+        required: true
+        schema:
+          maximum: 10.0
+          minimum: 1.0
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Order'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Order not found
+          content: {}
+    delete:
+      tags:
+      - orders
+      summary: Delete purchase order by ID
+      description: For valid response try integer IDs with positive integer value.         Negative
+        or non-integer values will generate API errors
+      operationId: deleteOrder
+      parameters:
+      - name: orderId
+        in: path
+        description: ID of the order that needs to be deleted
+        required: true
+        schema:
+          minimum: 1.0
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Order not found
+          content: {}
+  /login:
+    post:
+      tags:
+      - login
+      summary: Logs user into the system
+      operationId: loginUser
+      parameters:
+      - name: username
+        in: query
+        description: The user name for login
+        required: true
+        schema:
+          type: string
+      - name: password
+        in: query
+        description: The password for login in clear text
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              description: date in UTC when token expires
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/xml:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+        400:
+          description: Invalid username/password supplied
+          content: {}
+  /users:
+    post:
+      tags:
+      - users
+      summary: Create user
+      description: This can only be done by the logged in user.
+      operationId: createUser
+      requestBody:
+        description: Created user object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        default:
+          description: successful operation
+          content: {}
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    OrderC:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        paymentId:
+          type: integer
+          format: int64
+        products:
+          type: object
+          format: int32
+    OrderR:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        stateId:
+          type: integer
+          format: int64
+        paymentId:
+          type: integer
+          format: int64
+        userId:
+          type: integer
+          format: int64
+        creationDate:
+          type: string
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        price:
+          type: number
+        descriptionImg:
+          type: string
+    User:
+      type: object
+      properties:
+        fullName:
+          type: string
+          format: int64
+        username:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        fullAddress:
+          type: string
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://petstore.swagger.io/oauth/dialog
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header

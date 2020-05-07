@@ -55,7 +55,6 @@ router
 
                 if (product !== null) {
                     res.status(200).json( {product, message: 'Product updated successfully.' })
-                    console.log('Entro')
                 } else {
                     res.status(404).json({ error: 'Id not found.' })
                 }

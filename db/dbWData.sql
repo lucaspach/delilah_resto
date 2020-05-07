@@ -16,32 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `login`
---
-
-DROP TABLE IF EXISTS `login`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `login` (
-  `user_id` int(11) NOT NULL,
-  `lastLoginDate` datetime DEFAULT NULL,
-  `token` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  PRIMARY KEY (`user_id`),
-  CONSTRAINT `fk_login_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='			';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `login`
---
-
-LOCK TABLES `login` WRITE;
-/*!40000 ALTER TABLE `login` DISABLE KEYS */;
-INSERT INTO `login` VALUES (1,NULL,NULL);
-/*!40000 ALTER TABLE `login` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `order`
 --
 
@@ -61,7 +35,7 @@ CREATE TABLE `order` (
   CONSTRAINT `fk_order_payment` FOREIGN KEY (`id_payment`) REFERENCES `payment` (`id`),
   CONSTRAINT `fk_order_state` FOREIGN KEY (`id_state`) REFERENCES `order_state` (`id`),
   CONSTRAINT `fk_order_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='																																														';
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='																																														';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +44,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (42,1,1,1,'2020-05-01 23:08:00'),(43,1,1,1,'2020-05-02 23:20:25'),(44,2,1,1,'2020-05-02 23:20:50'),(45,1,1,1,'2020-05-02 23:23:37');
+INSERT INTO `order` VALUES (42,1,1,1,'2020-05-01 23:08:00'),(43,1,1,1,'2020-05-02 23:20:25'),(44,2,1,1,'2020-05-02 23:20:50'),(45,1,1,1,'2020-05-02 23:23:37'),(46,1,1,4,'2020-05-06 19:51:50');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -88,7 +62,7 @@ CREATE TABLE `order_detail` (
   PRIMARY KEY (`id`),
   KEY `fk_orderD_order_idx` (`id_order`),
   CONSTRAINT `fk_orderD_order` FOREIGN KEY (`id_order`) REFERENCES `order` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='				';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='				';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,7 +71,7 @@ CREATE TABLE `order_detail` (
 
 LOCK TABLES `order_detail` WRITE;
 /*!40000 ALTER TABLE `order_detail` DISABLE KEYS */;
-INSERT INTO `order_detail` VALUES (1,42,1149.98),(2,43,1149.98),(3,44,1149.98),(4,45,1149.98);
+INSERT INTO `order_detail` VALUES (1,42,1149.98),(2,43,1149.98),(3,44,1149.98),(4,45,1149.98),(5,46,650);
 /*!40000 ALTER TABLE `order_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -126,7 +100,7 @@ CREATE TABLE `order_detail_has_product` (
 
 LOCK TABLES `order_detail_has_product` WRITE;
 /*!40000 ALTER TABLE `order_detail_has_product` DISABLE KEYS */;
-INSERT INTO `order_detail_has_product` VALUES (2,2,1),(2,3,1),(2,4,2),(3,2,1),(3,3,1),(3,4,2),(4,2,1),(4,3,1),(4,4,2);
+INSERT INTO `order_detail_has_product` VALUES (2,2,1),(2,3,1),(2,4,2),(3,2,1),(3,3,1),(3,4,2),(4,2,1),(4,3,1),(4,4,2),(5,2,1),(5,3,1);
 /*!40000 ALTER TABLE `order_detail_has_product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,7 +165,7 @@ CREATE TABLE `product` (
   `price` double DEFAULT NULL,
   `description_img` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -244,10 +218,11 @@ CREATE TABLE `user` (
   `phone_number` varchar(45) DEFAULT NULL,
   `full_address` varchar(200) DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL,
+  `token` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_user_role_idx` (`role_id`),
   CONSTRAINT `fk_user_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='								';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='								';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -256,7 +231,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Pacheco Lucas','lucaspach','Jack24','lucasfede2010@gmail.com','3511111425','Cordoba',2),(2,'Gaston Celis','gastoncelis','Gato12','gastoncelis09@gmail.com','3514559294','Cordoba',1);
+INSERT INTO `user` VALUES (1,'Pacheco Lucas','lucaspach','Jack24','lucasfede2010@gmail.com','3511111425','Cordoba',2,NULL),(4,'Gaston Celis','gastoncelis','Gato12','gastoncelis09@gmail.com','3514789294','Anacreonte 1323 Córdoba',1,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -277,4 +252,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-06 19:21:46
+-- Dump completed on 2020-05-06 20:46:04

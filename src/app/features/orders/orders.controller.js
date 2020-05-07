@@ -11,24 +11,35 @@ export class OrdersController {
         return await OrdersService.getAllProductsXOrders()
     }
 
+    // En caso que acceda un usuario y no un Admin al endpoint
+    static async getAllUserDB(id) {
+        return await OrdersService.getAllUserDB(id)
+    }
+
+    static async getAllUserProductsXOrders(id) {
+        return await OrdersService.getAllUserProductsXOrders(id)
+    }
+    //
+
     static async getOneById(id) {
         return await OrdersService.getOneById(id)
     }
 
-    static async getByIdOrdersXProducts(id) {
-        return await OrdersService.getByIdProductsXOrders(id)
+    static async getOneByIdOrdersXProducts(id) {
+        return await OrdersService.getOneByIdProductsXOrders(id)
     }
 
-    static async add(userId, { paymentId, products }) {
+    static async add({ userId, paymentId, products }) {
+        // Creamos la fecha actual
         let creationDate = new Date()
         creationDate = creationDate.toLocaleDateString() + ' ' + creationDate.toLocaleTimeString()
-        //const time = `${date.getHours}:${date.getMinutes}`
 
         // Creamos la orden con estado 1 = "nuevo"
         const order = new Order(null, 1, paymentId, userId, creationDate)
 
-        const rQueryOrder = await OrdersService.store(order)
+        const rQueryOrder = await OrdersService.add(order)
         const orderId = rQueryOrder[0]["LAST_INSERT_ID()"]
+        order.id = orderId
         
         // Obtenemos el total para el detalle de la orden
         let total = 0 
@@ -40,14 +51,14 @@ export class OrdersController {
             // Creamos el detalle de la orden
             const orderDetail = new OrderDetail(null, orderId, total)
 
-            const rQueryOrderDetail = await OrdersService.storeDetail(orderDetail)
+            const rQueryOrderDetail = await OrdersService.addDetail(orderDetail)
             const orderDetailId = rQueryOrderDetail[0]["LAST_INSERT_ID()"]
             
             // Creamos el detalle de la orden x cada producto
             products.forEach(async element =>  {
                 await OrdersService.storeDetailHasProduct(orderDetailId, element.id, element.quantity)
              })
-            return orderDetailId
+            return order
 
 
         } else return new Error('Total Order must be more than 0')

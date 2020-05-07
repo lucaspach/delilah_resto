@@ -9,7 +9,7 @@ export class UsersService {
         return await Service.getQuery('SELECT * FROM user WHERE id = ?', [id])
     } */
 
-    static async store(user) {
+    static async add(user) {
         return await Service.setQuery(
             `INSERT INTO user (full_name, username, password, email, phone_number, full_address, role_id) VALUES (?, ?, ?, ?, ?, ?, ?)`, [
             user.fullName,

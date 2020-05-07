@@ -14,6 +14,6 @@ export class UsersController {
         //console.log(name, price, descriptionImg)
         const roleId = 1 // user, rol por defecto
         const user = new User(null, fullName, username, password, email, phoneNumber, fullAddress, roleId)
-        return await UsersService.store(user)
+        return await UsersService.add(user)
     }
 }
