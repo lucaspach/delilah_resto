@@ -1,10 +1,10 @@
 import { Router } from 'express'
 import {UsersController} from './users.controller'
-//import { verifyRole } from '../../middlewares/auth.middleware'
+import { roleCheck } from '../../middlewares/auth.middleware'
 const router = Router()
 
 router
-/*  .get('/', async (req, res) => {
+     .get('/', roleCheck, async (req, res) => {
 
         try {
             const users = await UsersController.getAll()
@@ -14,7 +14,7 @@ router
             res.status(500).json({ error: 'Something went wrong. Please retry or contact with an admin.', message: error})
         }
     })
-    .get('/:id', async (req, res) => {
+    .get('/:id', roleCheck, async (req, res) => {
 
         const id = parseInt(req.params.id)
 
@@ -28,7 +28,7 @@ router
                 res.status(500).json({ error: 'Something went wrong. Please retry or contact with an admin.', message: error})
             }
         }
-    }) */
+    })
     .post('/', async (req, res) => {
 
         try {            

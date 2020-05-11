@@ -3,11 +3,11 @@ import { Service } from '../../core/services/service'
 export class UsersService {
     static async getAllDB() {
         return await Service.getQuery('SELECT * FROM user')
-    } //VER
+    } 
 
-    /* static async getOneById(id) {
+    static async getOneById(id) {
         return await Service.getQuery('SELECT * FROM user WHERE id = ?', [id])
-    } */
+    }
 
     static async add(user) {
         return await Service.setQuery(
