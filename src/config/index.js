@@ -1,14 +1,14 @@
 const config = {
     SERVER_PORT: 5500,
     DDBB: {
-        NAME: '',
-        USER: '',
-        PASS: '',
-        PORT: '',
+        NAME: 'delilah',
+        USER: 'root',
+        PASS: '#Jackbauer24#',
+        PORT: '3306',
         HOST: 'localhost'
     },
     JWT: {
-        PRIVATE_KEY: '',
+        PRIVATE_KEY: 'PLusc231',
         EXPIRES_TIME: 10
     }
 }

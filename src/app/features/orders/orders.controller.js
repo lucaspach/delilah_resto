@@ -70,7 +70,11 @@ export class OrdersController {
     }
 
     static async deleteById(id) {
+        const [orderId] = await OrdersService.getOneOrderDetailIdByOrderId(id)
+        // Eliminamos el detalle y por último la orden
+        await OrdersService.deleteDetailById(orderId.id)
         return await OrdersService.deleteById(id)
+        
     }
 
 

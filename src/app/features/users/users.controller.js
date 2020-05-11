@@ -10,9 +10,8 @@ export class UsersController {
         return await UsersService.getOneById(id)
     } */
 
-    static async add({ fullName, username, password, email, phoneNumber, fullAddress }) {
+    static async add({ fullName, username, password, email, phoneNumber, fullAddress }, roleId) {
         //console.log(name, price, descriptionImg)
-        const roleId = 1 // user, rol por defecto
         const user = new User(null, fullName, username, password, email, phoneNumber, fullAddress, roleId)
         return await UsersService.add(user)
     }

@@ -32,7 +32,18 @@ router
     .post('/', async (req, res) => {
 
         try {            
-            await UsersController.add(req.body)
+            await UsersController.add(req.body, 1) // user rol)
+            res.status(201).json({ message: 'User created successfully.' })
+
+        } catch (error) {
+            res.status(500).json({ error: 'Something went wrong. Please retry or contact with an admin.', message: error})
+        }
+    })
+    // Se agrega perfil admin
+    .post('/admin', async (req, res) => {
+
+        try {            
+            await UsersController.add(req.body, 2) // admin rol)
             res.status(201).json({ message: 'User created successfully.' })
 
         } catch (error) {

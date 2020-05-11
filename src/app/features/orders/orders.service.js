@@ -49,7 +49,6 @@ export class OrdersService {
     }
 
 
-
     static async getOneById(id) {
         return await Service.getQuery(`
         SELECT os.state, time(o.creation_datetime) creation_time, o.id, p.method, od.total,
@@ -109,5 +108,18 @@ export class OrdersService {
             stateId,
             id
         ])
+    }
+
+    static async deleteById(id) {
+        return await Service.setQuery('DELETE delilah.order FROM delilah.order WHERE id = ?', [id])
+    }
+
+    static async deleteDetailById(orderId) {
+        await Service.setQuery('DELETE order_detail_has_product FROM order_detail_has_product WHERE order_detail_id = ?', [orderId])
+        return await Service.setQuery('DELETE order_detail FROM order_detail WHERE id = ?', [orderId])
+    }
+
+    static async getOneOrderDetailIdByOrderId(id) {
+        return await Service.getQuery('SELECT id FROM order_detail WHERE id_order = ?', [id])
     }
 } 

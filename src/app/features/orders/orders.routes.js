@@ -2,12 +2,12 @@ import { Router } from 'express'
 import { OrdersController } from './orders.controller'
 import { verify } from 'jsonwebtoken'
 import config from '../../../config'
-import { roleCheck, getUserAuthenticated } from '../../middlewares/auth.middleware'
+import { roleCheck, getUserAuthenticated, verifyToken } from '../../middlewares/auth.middleware'
 
 const router = Router()
 
 router
-    .get('/', async (req, res) => {
+    .get('/', verifyToken, async (req, res) => {
 
         try {
             // Obtengo el id del usuario loguiado de forma un poco sucia 
@@ -38,7 +38,7 @@ router
             res.status(500).json({ error: 'Something went wrong. Please retry or contact with an admin.', message: error})
         }
     })
-    .get('/:id', async (req, res) => { 
+    .get('/:id', verifyToken, async (req, res) => { 
 
         const id = parseInt(req.params.id)
         
@@ -67,7 +67,7 @@ router
             res.status(402).send({ error: 'Bad request.', message: 'Id must be a number.' })
         }
     })
-    .post('/',  async (req, res)  => {
+    .post('/', verifyToken, async (req, res)  => {
 
         try {
             const data = req.body
@@ -95,6 +95,27 @@ router
 
                 if (order) {
                     res.status(200).json({ message: 'Order State updated successfully.' })
+                } else {
+                    res.status(404).json({ error: 'Id not found.' })
+                }
+                
+            } catch (error) {
+                res.status(500).json({ error: 'Something went wrong. Please retry or contact with an admin.', message: error })
+            }
+        } else {
+            res.status(402).send({ error: 'Bad request.', message: 'Id must be a number.' })
+        }
+    })
+    .delete('/:id', roleCheck, async (req, res)  => {
+
+        const id = parseInt(req.params.id)
+
+        if(!isNaN(id)) {
+            try {
+                const order = await OrdersController.deleteById(id)
+
+                if (order) {
+                    res.status(200).json({ message: 'Order deleted successfully.' })
                 } else {
                     res.status(404).json({ error: 'Id not found.' })
                 }
